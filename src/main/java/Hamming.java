@@ -1,27 +1,23 @@
-import java.util.PriorityQueue;
+import java.util.TreeSet;
 
 // https://www.codewars.com/kata/hamming-numbers/
 
 public class Hamming {
 
     public static long hamming(int n) {
-        PriorityQueue<Long> queue = new PriorityQueue<>();
-        queue.offer(1L);
-        Long least = 1L;
+        if (n <= 0) return -1;
+        TreeSet<Long> ts = new TreeSet<>();
+        long smallest = 1;
+        ts.add(smallest);
         for (int i = 0; i < n; i++) {
-            least = queue.poll();
-            while (least.equals(queue.peek()))
-                queue.poll();
-            enqueue(queue, least);
+            smallest = ts.pollFirst();
+            ts.add(smallest * 2);
+            ts.add(smallest * 3);
+            ts.add(smallest * 5);
         }
-        return least;
+        return smallest;
     }
 
-    private static void enqueue(PriorityQueue<Long> q, long i) {
-        q.offer(2 * i);
-        q.offer(3 * i);
-        q.offer(5 * i);
-    }
 
     public static void main(String[] args) {
         System.out.println(hamming(7));
